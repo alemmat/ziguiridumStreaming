@@ -6,25 +6,15 @@
 static void destroy(GtkWidget*, gpointer);
 static gboolean mouse_moved(GtkWidget *widget,GdkEvent *event,gpointer user_data);
 
-
 void gst_config(){
-
-//gst-launch-1.0 -e ximagesrc startx=0 use-damage=0 !
-//'video/x-raw,framerate=30/1' !
-//queue !
-//videoconvert !
-//x264enc threads=0 bitrate=400 tune=zerolatency key-int-max=30 !
-//queue !
-//flvmux name=flvmux !
-//queue !
-//rtmpsink location=rtmp://live-fra.twitch.tv/app/live_631791363_ZsrYHlHf3hvo7cAjWuuwwKJQKZI9AF
-
 
 GstElement *ximagesrc, *queue0, *videoconvert, *x264enc;
 GstElement *queue1, *flvmux, *queue2, *rtmpsink;
 GstElement *pipeline;
 GstCaps *caps;
 GstBus *bus;
+
+char token[]="location=rtmp://live-fra.twitch.tv/app/TOKE";
 
 gst_init (NULL, NULL);
 
@@ -90,7 +80,7 @@ if (!gst_element_link (queue2, rtmpsink))
   g_object_set (G_OBJECT (x264enc), "tune", 0x00000004, NULL);
   g_object_set (G_OBJECT (x264enc), "key-int-max", 30, NULL);
 
-  g_object_set (G_OBJECT (rtmpsink), "location", "location=rtmp://live-fra.twitch.tv/app/live_631791363_ZsrYHlHf3hvo7cAjWuuwwKJQKZI9AF", NULL);
+  g_object_set (G_OBJECT (rtmpsink), "location", token, NULL);
 
 
   gst_element_set_state (pipeline, GST_STATE_PLAYING);
